@@ -20,6 +20,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymvvpapp.data.model.Post
 import com.example.mymvvpapp.ui.theme.MyMVVPAppTheme
 import com.example.mymvvpapp.viewmodel.PostsViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
 
@@ -29,14 +34,27 @@ class MainActivity : ComponentActivity() {
             MyMVVPAppTheme {
 
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
+
+                    runBlocking {
+                        power2().collect {
+                            Log.e("2323", it.toString())
+                        }
+                    }
 
                 }
             }
         }
     }
+
+    fun power2(): Flow<Int> = flow {
+        for (i in 1..200) {
+            delay(100)
+            emit(i * i)
+        }
+    }
+
 
     @Composable
     private fun ObservePostsViewModel() {
