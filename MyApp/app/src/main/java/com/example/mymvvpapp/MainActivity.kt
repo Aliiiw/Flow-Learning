@@ -23,6 +23,7 @@ import com.example.mymvvpapp.viewmodel.PostsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 
 class MainActivity : ComponentActivity() {
 
@@ -35,26 +36,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
 
-//                    runBlocking {
-//                        power2().collect {
-//                            Log.e("2323", it.toString())
-//                        }
-//                    }
-
                     runBlocking {
-//                        sendNumbers().collect {
-//                            Log.e("2323", it.toString())
-//                        }
+                        withTimeout(5000){
+                            power2().collect {
+                                Log.e("2323", it.toString())
+                            }
 
-                        sendNumbers2().collect {
-                            Log.e("2323", it.toString())
                         }
 
-                        sendNumbers3().collect {
-                            Log.e("2323", it.toString())
-                        }
                     }
-
                 }
             }
         }
