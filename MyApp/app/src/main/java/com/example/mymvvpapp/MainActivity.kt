@@ -21,9 +21,7 @@ import com.example.mymvvpapp.data.model.Post
 import com.example.mymvvpapp.ui.theme.MyMVVPAppTheme
 import com.example.mymvvpapp.viewmodel.PostsViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
@@ -37,8 +35,22 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
 
+//                    runBlocking {
+//                        power2().collect {
+//                            Log.e("2323", it.toString())
+//                        }
+//                    }
+
                     runBlocking {
-                        power2().collect {
+//                        sendNumbers().collect {
+//                            Log.e("2323", it.toString())
+//                        }
+
+                        sendNumbers2().collect {
+                            Log.e("2323", it.toString())
+                        }
+
+                        sendNumbers3().collect {
                             Log.e("2323", it.toString())
                         }
                     }
@@ -48,6 +60,17 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    //var args migire ya taki ya har chanta
+    fun sendNumbers2() = flowOf(1)
+
+    fun sendNumbers3() = flowOf(1, 2, "Ali", true, 7.9)
+
+
+    //roye list ya collection
+    fun sendNumbers() = listOf(1, 2, 3, 4, 5).asFlow()
+
+
+    //noyi az flow builder
     fun power2(): Flow<Int> = flow {
         for (i in 1..200) {
             delay(100)
