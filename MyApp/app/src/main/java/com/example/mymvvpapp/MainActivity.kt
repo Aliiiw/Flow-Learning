@@ -41,9 +41,8 @@ class MainActivity : ComponentActivity() {
                         }.map {
                             //"number is: $it"
                             it * 10
-                        }.transform {
-                            emit(it)
-                            emit("new emit: $it")
+                        }.onEach {
+                            Log.e("2323", "on each: $it")
                         }.collect {
                             Log.e("2323", it.toString())
                         }
