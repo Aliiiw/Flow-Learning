@@ -36,13 +36,11 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     GlobalScope.launch {
-                        myTestFlow().filter {
+                        val myList = myTestFlow().filter {
                             it % 2 == 0
-                        }.map {
-                            //"number is: $it"
-                            it * 10
-                        }.take(5)
-                            .collect {
+                        }.toList()
+
+                        myList.forEach {
                             Log.e("2323", it.toString())
                         }
                     }
