@@ -37,11 +37,10 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     runBlocking {
-                        withTimeout(5000){
-                            power2().collect {
-                                Log.e("2323", it.toString())
-                            }
 
+                        power2().collectLatest {
+                            delay(110)
+                            Log.e("2323", it.toString())
                         }
 
                     }
