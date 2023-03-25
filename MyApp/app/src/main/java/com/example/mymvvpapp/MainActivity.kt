@@ -36,11 +36,13 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     GlobalScope.launch {
-                        val myList = myTestFlow2().toSet()
-
-                        myList.forEach {
-                            Log.e("2323", it.toString())
+                        val counter = myTestFlow2().toSet().count {
+                            it % 2 == 0
                         }
+
+                        Log.e("2323", counter.toString())
+
+
                     }
                 }
             }
