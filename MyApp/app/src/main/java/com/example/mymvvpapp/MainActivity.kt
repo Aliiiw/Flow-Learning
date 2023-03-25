@@ -36,13 +36,17 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     GlobalScope.launch {
-                        val counter = myTestFlow2().toSet().count {
-                            it % 2 == 0
+//                        val counter = myTestFlow().reduce { accumulator, value ->
+//                            //accumulator + value
+//                            accumulator * value
+//                        }
+
+                        val counter = myTestFlow().fold(initial = 10) { accumulator, value ->
+                            //accumulator + value
+                            accumulator * value
                         }
 
                         Log.e("2323", counter.toString())
-
-
                     }
                 }
             }
@@ -55,7 +59,7 @@ class MainActivity : ComponentActivity() {
 
 
     fun myTestFlow(): Flow<Int> = flow {
-        for (i in 1..100) {
+        for (i in 1..5) {
             delay(100)
             emit(i)
         }
