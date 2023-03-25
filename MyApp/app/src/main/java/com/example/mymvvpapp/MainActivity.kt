@@ -22,6 +22,7 @@ import com.example.mymvvpapp.ui.theme.MyMVVPAppTheme
 import com.example.mymvvpapp.viewmodel.PostsViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlin.system.measureTimeMillis
 
 class MainActivity : ComponentActivity() {
 
@@ -36,30 +37,27 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     GlobalScope.launch {
-//                        val counter = myTestFlow().reduce { accumulator, value ->
-//                            //accumulator + value
-//                            accumulator * value
-//                        }
-
-                        val counter = myTestFlow().fold(initial = 10) { accumulator, value ->
-                            //accumulator + value
-                            accumulator * value
+                        val time = measureTimeMillis {
+                            myTestFlow().buffer()
+                                .collect {
+                                    delay(300)
+                                    Log.e("2323", it.toString())
+                                }
                         }
 
-                        Log.e("2323", counter.toString())
+                        Log.e("2323", "time is: $time")
                     }
                 }
             }
         }
     }
 
-
-    fun myTestFlow2(): Flow<Int> =
-        flowOf(1, 43, 56, 3, 2, 43, 4, 1, 66, 77, 56, 56, 90, 99, 99, 99, 5)
+    //buffer nabood: emit(1) + 100 -> collect(1) + 300 + emit(2) + 100 -> collect(2) + 300 ...
+    //ba buffer: emit(1) + 100 mire collect mibine 300 ta jadare mire emit(2) hnuz collect nayomade mire emit(3) , ....
 
 
     fun myTestFlow(): Flow<Int> = flow {
-        for (i in 1..5) {
+        for (i in 1..10) {
             delay(100)
             emit(i)
         }
