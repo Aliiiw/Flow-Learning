@@ -36,9 +36,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     GlobalScope.launch {
-                        val myList = myTestFlow().filter {
-                            it % 2 == 0
-                        }.toList()
+                        val myList = myTestFlow2().toSet()
 
                         myList.forEach {
                             Log.e("2323", it.toString())
@@ -48,6 +46,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+    fun myTestFlow2(): Flow<Int> =
+        flowOf(1, 43, 56, 3, 2, 43, 4, 1, 66, 77, 56, 56, 90, 99, 99, 99, 5)
+
 
     fun myTestFlow(): Flow<Int> = flow {
         for (i in 1..100) {
