@@ -38,6 +38,9 @@ class MainActivity : ComponentActivity() {
                     GlobalScope.launch {
                         myTestFlow().filter {
                             it % 2 == 0
+                        }.map {
+                            //"number is: $it"
+                            it * 10
                         }.collect {
                             Log.e("2323", it.toString())
                         }
