@@ -20,13 +20,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mymvvpapp.data.model.Post
 import com.example.mymvvpapp.ui.theme.MyMVVPAppTheme
 import com.example.mymvvpapp.viewmodel.PostsViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
 
 class MainActivity : ComponentActivity() {
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,18 +35,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
 
-                    runBlocking {
-
-                        power2().collectLatest {
-                            delay(110)
+                    GlobalScope.launch {
+                        myTestFlow().filter {
+                            it % 2 == 0
+                        }.collect {
                             Log.e("2323", it.toString())
                         }
-
                     }
                 }
             }
         }
     }
+
+    fun myTestFlow(): Flow<Int> = flow {
+        for (i in 1..100) {
+            delay(100)
+            emit(i)
+        }
+    }
+
 
     //var args migire ya taki ya har chanta
     fun sendNumbers2() = flowOf(1)
