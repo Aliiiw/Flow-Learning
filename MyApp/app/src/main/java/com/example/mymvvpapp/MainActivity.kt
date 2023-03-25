@@ -36,17 +36,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
 
-                    GlobalScope.launch {
-                        val time = measureTimeMillis {
-                            myTestFlow().buffer()
-                                .collect {
-                                    delay(300)
-                                    Log.e("2323", it.toString())
-                                }
-                        }
-
-                        Log.e("2323", "time is: $time")
-                    }
+                    ObservePostsViewModel()
                 }
             }
         }
@@ -97,17 +87,17 @@ class MainActivity : ComponentActivity() {
             val viewModel = ViewModelProvider(this@MainActivity).get(PostsViewModel::class.java)
             viewModel.getAllPostsRequest()
 
-            viewModel.postsList.observe(this@MainActivity) { posts ->
+            viewModel.postsList.collectLatest { posts ->
                 postsList = posts
             }
 
-            viewModel.postsListError.observe(this@MainActivity) { isError ->
+            viewModel.postsListError.collectLatest { isError ->
                 isError?.let {
                     Log.e("2323", isError)
                 }
             }
 
-            viewModel.loading.observe(this@MainActivity) { isLoading ->
+            viewModel.loading.collectLatest { isLoading ->
                 Log.e("2323", isLoading.toString())
             }
         }

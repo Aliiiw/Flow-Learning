@@ -6,14 +6,22 @@ import com.example.mymvvpapp.data.model.Post
 import com.example.mymvvpapp.data.network.ApiClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class PostsViewModel : ViewModel() {
 
-    val postsList = MutableLiveData<List<Post>>()
-    val postsListError = MutableLiveData<String?>()
-    val loading = MutableLiveData<Boolean?>()
+    //live data
+//    val postsList = MutableLiveData<List<Post>>()
+//    val postsListError = MutableLiveData<String?>()
+//    val loading = MutableLiveData<Boolean?>()
+
+    //Flow
+    val postsList = MutableStateFlow<List<Post>>(emptyList())
+    val postsListError = MutableStateFlow<String?>("")
+    val loading = MutableStateFlow<Boolean?>(true)
 
 
     fun getAllPostsRequest() {
