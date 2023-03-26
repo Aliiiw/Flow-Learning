@@ -35,13 +35,13 @@ class PostsViewModel : ViewModel() {
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful && response.body() != null) {
                     response.body()?.let { allPosts ->
-                        postsList.value = allPosts
-                        postsListError.value = null
-                        loading.value = false
+                        postsList.emit(allPosts)
+                        postsListError.emit(null)
+                        loading.emit(false)
                     }
                 } else {
-                    postsListError.value = response.message()
-                    loading.value = false
+                    postsListError.emit(response.message())
+                    loading.emit(false)
                 }
             }
         }

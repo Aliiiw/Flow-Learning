@@ -3,23 +3,28 @@ package com.example.mymvvpapp
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.example.mymvvpapp.data.model.Post
 import com.example.mymvvpapp.ui.theme.MyMVVPAppTheme
 import com.example.mymvvpapp.viewmodel.PostsViewModel
+import com.example.mymvvpapp.viewmodel.RandomPersonViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.system.measureTimeMillis
@@ -36,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
 
-                    ObservePostsViewModel()
+                    ObserveRandomPersonViewModel()
                 }
             }
         }
@@ -72,6 +77,38 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    @Composable
+    fun ObserveRandomPersonViewModel() {
+        val viewModel by viewModels<RandomPersonViewModel>()
+
+
+        val person by viewModel.stateFlowPerson.collectAsState()
+
+        val context = LocalContext.current
+
+        LaunchedEffect(true) {
+
+            viewModel.sharedFlowPerson.collectLatest {
+                Toast.makeText(context, "Random Person is: $it", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(32.dp)
+        ) {
+            Text(text = person)
+
+            Button(onClick = {
+                viewModel.getRandomPerson()
+            }) {
+                Text(text = "click me")
+            }
+        }
+
+    }
 
     @Composable
     private fun ObservePostsViewModel() {
